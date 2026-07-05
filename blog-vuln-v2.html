@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Le Coup de Clé — Blog vélo & mécanique DIY</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+  :root{
+    --navy:#16232b;
+    --paper:#eef1ee;
+    --paper-dim:#aab6b0;
+    --orange:#e8631a;
+    --caution:#f2c14e;
+    --line:#2c3a41;
+    --panel:#1c2b33;
+    --sans:'Inter',Arial,sans-serif;
+    --head:'Oswald',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--navy);color:var(--paper);font-family:var(--sans);}
+  a{color:var(--caution);text-decoration:none;cursor:pointer;}
+  a:hover{text-decoration:underline;}
+
+  .masthead{
+    background:linear-gradient(180deg, var(--panel), var(--navy));
+    border-bottom:4px solid var(--orange);
+    padding:22px 24px 16px;
+  }
+  .masthead .row{max-width:1040px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;}
+  .brand h1{font-family:var(--head);font-size:32px;letter-spacing:.03em;margin:0;color:var(--paper);}
+  .brand h1 span{color:var(--orange);}
+  .brand p{margin:2px 0 0;color:var(--paper-dim);font-size:13px;}
+  nav{display:flex;gap:18px;font-family:var(--head);font-size:14px;letter-spacing:.04em;text-transform:uppercase;}
+  nav a{color:var(--paper);}
+  nav a:hover{color:var(--orange);}
+
+  .searchbar{max-width:1040px;margin:14px auto 0;display:flex;gap:8px;}
+  .searchbar input{flex:1;padding:10px 12px;background:var(--panel);border:1px solid var(--line);color:var(--paper);}
+  .searchbar button{background:var(--orange);border:none;color:#1a0d05;font-weight:600;padding:10px 16px;cursor:pointer;font-family:var(--head);letter-spacing:.03em;}
+
+  .layout{max-width:1040px;margin:0 auto;padding:26px 24px 90px;display:grid;grid-template-columns:1fr 260px;gap:28px;}
+  @media (max-width:760px){.layout{grid-template-columns:1fr;}}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+  .card{background:var(--panel);border:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px;}
+  .card .tag{font-family:var(--head);font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;}
+  .card h3{font-family:var(--head);font-size:17px;margin:0;line-height:1.3;}
+  .card p{color:var(--paper-dim);font-size:13px;line-height:1.5;margin:0;}
+  .card .meta{color:var(--paper-dim);font-size:11px;opacity:.7;}
+
+  h2.pagetitle{font-family:var(--head);font-size:24px;border-left:4px solid var(--orange);padding-left:12px;margin:0 0 18px;}
+
+  .article-body p{line-height:1.7;color:var(--paper-dim);}
+  .comments{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;}
+  .comment{background:var(--panel);border:1px solid var(--line);padding:10px 14px;margin-bottom:10px;font-size:13.5px;}
+  .comment b{color:var(--caution);font-size:12px;}
+  .comment-form{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .comment-form input{flex:1;min-width:200px;padding:9px 11px;background:var(--panel);border:1px solid var(--line);color:var(--paper);}
+
+  form.stack{display:flex;flex-direction:column;gap:10px;max-width:380px;}
+  form.stack input, form.stack textarea{padding:10px 12px;background:var(--panel);border:1px solid var(--line);color:var(--paper);font-family:var(--sans);}
+  .btn{
+    background:var(--orange);border:none;color:#1a0d05;font-weight:600;padding:10px 14px;
+    cursor:pointer;font-family:var(--head);letter-spacing:.03em;text-transform:uppercase;font-size:13px;
+  }
+
+  table.userlist{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+  table.userlist th,table.userlist td{border:1px solid var(--line);padding:6px 9px;text-align:left;color:var(--paper-dim);}
+  table.userlist th{color:var(--paper);}
+
+  .profilebox{background:var(--panel);border:1px solid var(--line);padding:14px 16px;margin-top:10px;font-size:13.5px;color:var(--paper-dim);line-height:1.6;}
+
+  aside{display:flex;flex-direction:column;gap:20px;}
+  .widget{background:var(--panel);border:1px solid var(--line);padding:14px 16px;}
+  .widget h4{font-family:var(--head);font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--orange);margin:0 0 10px;}
+  .widget ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .widget ul li a{font-size:13px;color:var(--paper-dim);}
+  .widget ul li a:hover{color:var(--caution);}
+
+  .gb-entry{background:var(--panel);border:1px solid var(--line);padding:10px 14px;margin-bottom:10px;font-size:13.5px;}
+  .gb-entry b{color:var(--caution);font-size:12px;display:block;margin-bottom:3px;}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="row">
+    <div class="brand">
+      <h1>LE COUP DE <span>CLÉ</span></h1>
+      <p>blog vélo & mécanique DIY</p>
+    </div>
+    <nav>
+      <a onclick="go('#/')">Accueil</a>
+      <a onclick="go('#/livre-dor')">Livre d'or</a>
+      <a onclick="go('#/login')" id="navAuth">Connexion</a>
+    </nav>
+  </div>
+  <form class="searchbar" onsubmit="event.preventDefault(); go('#/search?q=' + encodeURIComponent(document.getElementById('globalSearch').value));">
+    <input id="globalSearch" type="text" placeholder="Rechercher un article, une pièce, un tuto…">
+    <button type="submit">Chercher</button>
+  </form>
+</div>
+
+<div class="layout">
+  <main id="app"></main>
+  <aside>
+    <div class="widget">
+      <h4>Catégories</h4>
+      <ul>
+        <li><a onclick="go('#/search?q=frein')">Freinage</a></li>
+        <li><a onclick="go('#/search?q=chaîne')">Transmission</a></li>
+        <li><a onclick="go('#/search?q=pneu')">Pneus & roues</a></li>
+        <li><a onclick="go('#/search?q=entretien')">Entretien général</a></li>
+      </ul>
+    </div>
+    <div class="widget">
+      <h4>Articles populaires</h4>
+      <ul id="popularList"></ul>
+    </div>
+    <div class="widget">
+      <h4>Communauté</h4>
+      <ul>
+        <li><a onclick="go('#/livre-dor')">Laisser un mot dans le livre d'or</a></li>
+        <li><a onclick="go('#/login')">Espace membre</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script>
+function makeUserDatabase(){
+  // RNG déterministe (mulberry32) pour avoir toujours la même base au chargement
+  let seed = 42;
+  function rand(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+  function pick(arr){ return arr[Math.floor(rand()*arr.length)]; }
+
+  const FIRST_NAMES = ["alice","bob","julien","sophie","marc","nadia","thomas","lea","karim","emma",
+    "hugo","chloe","yanis","manon","paul","ines","romain","camille","lucas","sarah",
+    "antoine","julie","maxime","laura","victor","celine","adrien","noemie","florian","aurelie",
+    "benoit","claire","damien","elodie","fabien","gaelle","gregoire","helene","ismael","jade",
+    "kevin","laure","mathieu","nina","olivier","pauline","quentin","raphael","sabine","theo"];
+  const SUFFIXES = ["", "74", "_b", ".dupont", "83", "_velo", "22", "_atelier", "99", ".m"];
+  const WEAK_PASSWORDS = ["123456","azerty","soleil2024","velo1980","password1","motdepasse",
+    "bicyclette","chocolat33","printemps22","hunter2","lucas2015","qwerty123","atelier44",
+    "S3cr3t!","tournevis","chaine2023","freinage9","rosebud","cargo2024","grease2024"];
+  const NOTE_TEMPLATES = [
+    "projet vélo cargo en cours, budget {n}€",
+    "mot de passe wifi atelier : grease{n}",
+    "code du cadenas atelier : {n}",
+    "attend une pièce commandée le mois dernier",
+    "a laissé ses coordonnées pour un devis réparation",
+    "membre depuis {n} mois, participe au forum entretien",
+    "a gagné le tirage au sort du dernier événement du blog",
+    "en attente de remboursement, référence commande #{n}"
+  ];
+
+  const users = [
+    {id:1, username:'admin', password:'S3cr3t!', role:'admin', email:'admin@coupdecle.fake', note:"code du cadenas atelier : 4471"},
+    {id:2, username:'alice', password:'hunter2', role:'moderateur', email:'alice@coupdecle.fake', note:"projet vélo cargo en cours, budget 800€"},
+    {id:3, username:'bob', password:'motdepasse', role:'user', email:'bob@coupdecle.fake', note:"mot de passe wifi atelier : grease2024"}
+  ];
+
+  let nextId = 4;
+  while(users.length < 60){
+    const name = pick(FIRST_NAMES);
+    const username = name + pick(SUFFIXES);
+    if(users.some(u => u.username === username)) continue;
+    const noteTpl = pick(NOTE_TEMPLATES);
+    const note = noteTpl.replace("{n}", Math.floor(rand()*900)+100);
+    users.push({
+      id: nextId++,
+      username,
+      password: pick(WEAK_PASSWORDS),
+      role: 'user',
+      email: username + "@coupdecle.fake",
+      note
+    });
+  }
+  return users;
+}
+const USERS = makeUserDatabase();
+
+const ARTICLES = [
+  {id:1, title:"Réamorcer des freins à disque hydrauliques", excerpt:"La purge expliquée sans jargon, avec les erreurs classiques à éviter.", date:"12 mars 2026", author:"Marc",
+   body:["La purge d'un frein à disque hydraulique fait peur au premier essai, mais la logique est toujours la même : chasser l'air, pas le liquide.",
+         "Commence par le point le plus bas du circuit, garde le réservoir toujours à moitié plein, et n'actionne jamais le levier sans étrier monté.",
+         "Compte environ 45 minutes pour ton premier essai, deux fois moins la fois suivante."],
+   comments:[{author:'Marc_du_garage', text:"Merci, j'ai enfin compris pourquoi mon levier restait mou !"}]},
+  {id:2, title:"Choisir la bonne taille de pneu pour l'hiver", excerpt:"Largeur, crampons, pression : ce qui compte vraiment sous la pluie.", date:"2 novembre 2025", author:"Sophie",
+   body:["Plus large n'est pas toujours mieux : sur route mouillée, un pneu bien choisi en 35-40mm avec une pression adaptée fait souvent mieux qu'un pneu large surgonflé.",
+         "Les crampons ne servent presque à rien sur bitume — c'est la gomme et la pression qui font 90% du travail."],
+   comments:[]},
+  {id:3, title:"Entretenir une chaîne sans (trop) se salir", excerpt:"La méthode en 4 étapes que les mécanos pros utilisent en atelier.", date:"18 janvier 2026", author:"Marc",
+   body:["Une chaîne propre dure deux à trois fois plus longtemps qu'une chaîne encrassée. La méthode : dégraissant, brosse, séchage complet, puis huile fine goutte à goutte.",
+         "Astuce d'atelier : essuie toujours l'excédent d'huile, sinon elle attire la poussière et fait l'effet inverse."],
+   comments:[]},
+  {id:4, title:"Régler un dérailleur qui saute", excerpt:"Butées, tension de câble, patience : le tour d'horizon complet.", date:"29 avril 2026", author:"Julien",
+   body:["Un dérailleur qui saute vient presque toujours d'un câble détendu ou d'une butée mal réglée — rarement d'une pièce cassée.",
+         "Commence toujours par la vis de tension avant de toucher aux butées haute et basse."],
+   comments:[]},
+  {id:5, title:"Vélo cargo : notre retour après 6 mois", excerpt:"Autonomie, entretien, et ce qu'on referait différemment.", date:"14 février 2026", author:"Alice",
+   body:["Après 1800 km cumulés avec deux enfants à l'arrière, la transmission a demandé plus d'attention qu'un vélo classique.",
+         "La batterie tient environ 55 km en usage mixte ville/côtes — largement suffisant pour notre trajet quotidien."],
+   comments:[]},
+  {id:6, title:"Nettoyer sans agresser : le bon dégraissant", excerpt:"Tous les dégraissants ne se valent pas, surtout pour les roulements.", date:"3 juin 2026", author:"Sophie",
+   body:["Un dégraissant trop agressif attaque aussi les joints et les roulements, pas seulement la graisse.",
+         "Privilégie un produit biodégradable à base d'agrumes pour un usage régulier, et garde le dégraissant fort pour les gros nettoyages annuels."],
+   comments:[]},
+  {id:7, title:"Monter ses propres roues : est-ce vraiment rentable ?", excerpt:"Temps passé, outillage, marge d'erreur : le vrai bilan.", date:"20 mai 2026", author:"Julien",
+   body:["Le montage de roues demande un dérive-rayon, une patience certaine, et au moins deux ou trois essais avant un résultat pro.",
+         "Sur le plan financier, c'est rentable dès la deuxième paire de roues montée."],
+   comments:[]},
+  {id:8, title:"Pneus tubeless : notre expérience après un an", excerpt:"Moins de crevaisons, plus d'entretien liquide préventif.", date:"9 janvier 2026", author:"Alice",
+   body:["Le tubeless a clairement réduit les crevaisons lentes, mais demande de recharger le liquide préventif tous les 3 à 4 mois.",
+         "Le montage initial reste le point le plus délicat, surtout sur jante étroite."],
+   comments:[]}
+];
+
+const GUESTBOOK = [
+  {author:'Nadia', text:"Super blog, j'ai enfin réussi ma purge de freins grâce au tuto !"},
+  {author:'Thomas_87', text:"Vous auriez un tuto pour régler un jeu au niveau du pédalier ?"}
+];
+
+let session = {loggedIn:false, id:null, username:null, role:null};
+
+function escapeHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function go(hash){ location.hash = hash; }
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', () => { renderPopular(); render(); });
+
+function renderPopular(){
+  const top = ARTICLES.slice(0,4);
+  document.getElementById('popularList').innerHTML = top.map(a =>
+    `<li><a onclick="go('#/article/${a.id}')">${escapeHtml(a.title)}</a></li>`
+  ).join('');
+}
+
+function parseRoute(){
+  let h = (location.hash || '#/').slice(1);
+  const [path, qs] = h.split('?');
+  return {path: path || '/', params: new URLSearchParams(qs || '')};
+}
+
+function render(){
+  const {path, params} = parseRoute();
+  const app = document.getElementById('app');
+  const navAuth = document.getElementById('navAuth');
+  navAuth.textContent = session.loggedIn ? session.username : 'Connexion';
+  navAuth.onclick = () => go(session.loggedIn ? ('#/profile?id=' + session.id) : '#/login');
+
+  if(path === '/') return renderHome(app);
+  if(path.startsWith('/article/')) return renderArticle(app, path.split('/')[2]);
+  if(path === '/search') return renderSearch(app, params.get('q') || '');
+  if(path === '/login') return renderLogin(app);
+  if(path === '/profile') return renderProfile(app, params.get('id'));
+  if(path === '/admin') return renderAdmin(app, params);
+  if(path === '/livre-dor') return renderGuestbook(app);
+  app.innerHTML = '<h2 class="pagetitle">Page introuvable</h2>';
+}
+
+function renderHome(app){
+  app.innerHTML = `
+    <h2 class="pagetitle">Derniers articles</h2>
+    <div class="grid">
+      ${ARTICLES.map(a => `
+        <div class="card">
+          <span class="tag">${escapeHtml(a.author)} · ${escapeHtml(a.date)}</span>
+          <h3>${escapeHtml(a.title)}</h3>
+          <p>${escapeHtml(a.excerpt)}</p>
+          <a onclick="go('#/article/${a.id}')">Lire la suite →</a>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderArticle(app, id){
+  const art = ARTICLES.find(a => a.id === Number(id));
+  if(!art){ app.innerHTML = '<p>Article introuvable.</p>'; return; }
+  app.innerHTML = `
+    <h2 class="pagetitle">${escapeHtml(art.title)}</h2>
+    <p class="card meta" style="border:none;padding:0;background:none;">Par ${escapeHtml(art.author)} — ${escapeHtml(art.date)}</p>
+    <div class="article-body">${art.body.map(p => '<p>'+escapeHtml(p)+'</p>').join('')}</div>
+    <div class="comments">
+      <h3 style="font-family:var(--head)">Commentaires</h3>
+      <div id="commentList"></div>
+      <div class="comment-form">
+        <input id="commentAuthor" placeholder="Ton pseudo">
+        <input id="commentText" placeholder="Écris un commentaire…">
+        <button class="btn" onclick="addComment(${art.id})">Publier</button>
+      </div>
+    </div>
+  `;
+  paintComments(art);
+}
+function paintComments(art){
+  document.getElementById('commentList').innerHTML = art.comments.map(c => `
+    <div class="comment"><b>${escapeHtml(c.author)}</b> — ${c.text}</div>
+  `).join('') || '<p style="color:var(--paper-dim)">Aucun commentaire pour l\'instant.</p>';
+}
+function addComment(articleId){
+  const art = ARTICLES.find(a => a.id === articleId);
+  const author = document.getElementById('commentAuthor').value || 'anonyme';
+  const text = document.getElementById('commentText').value;
+  art.comments.push({author, text});
+  paintComments(art);
+  document.getElementById('commentText').value = '';
+}
+
+function renderGuestbook(app){
+  app.innerHTML = `
+    <h2 class="pagetitle">Livre d'or</h2>
+    <p style="color:var(--paper-dim);font-size:13.5px;">Un petit mot, une question, une suggestion d'article ?</p>
+    <div id="gbList"></div>
+    <div class="comment-form" style="margin-top:14px;">
+      <input id="gbAuthor" placeholder="Ton nom">
+      <input id="gbText" placeholder="Ton message" style="flex:2;">
+      <button class="btn" onclick="addGuestbookEntry()">Envoyer</button>
+    </div>
+  `;
+  paintGuestbook();
+}
+function paintGuestbook(){
+  document.getElementById('gbList').innerHTML = GUESTBOOK.map(g => `
+    <div class="gb-entry"><b>${escapeHtml(g.author)}</b>${g.text}</div>
+  `).join('');
+}
+function addGuestbookEntry(){
+  const author = document.getElementById('gbAuthor').value || 'anonyme';
+  const text = document.getElementById('gbText').value;
+  GUESTBOOK.push({author, text});
+  paintGuestbook();
+  document.getElementById('gbText').value = '';
+}
+
+function renderSearch(app, q){
+  app.innerHTML = `
+    <h2 class="pagetitle">Résultats de recherche</h2>
+    <p>Résultats pour : <span id="reflectedQuery"></span></p>
+    <div class="grid" id="resultsGrid"></div>
+  `;
+  document.getElementById('reflectedQuery').innerHTML = q;
+  const matches = ARTICLES.filter(a => a.title.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('resultsGrid').innerHTML = matches.map(a => `
+    <div class="card">
+      <h3>${escapeHtml(a.title)}</h3>
+      <p>${escapeHtml(a.excerpt)}</p>
+      <a onclick="go('#/article/${a.id}')">Lire la suite →</a>
+    </div>
+  `).join('') || '<p style="color:var(--paper-dim)">Aucun résultat.</p>';
+}
+
+function renderLogin(app){
+  app.innerHTML = `
+    <h2 class="pagetitle">Connexion</h2>
+    <form class="stack" onsubmit="event.preventDefault(); attemptLogin();">
+      <input id="loginUser" placeholder="nom d'utilisateur">
+      <input id="loginPass" type="password" placeholder="mot de passe">
+      <button type="submit" class="btn">Se connecter</button>
+    </form>
+    <div id="loginMsg" style="margin-top:14px;color:var(--paper-dim);font-size:13.5px;"></div>
+  `;
+}
+function attemptLogin(){
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPass').value;
+  const msg = document.getElementById('loginMsg');
+
+  const hasUnion = /union\s+select/i.test(u);
+  const hasOrTrue = /'\s*or\s*'?1'?\s*=\s*'?1'?/i.test(u) || /\bor\b.*=.*/i.test(u);
+  const hasComment = /--|#/.test(u);
+
+  if(hasUnion){
+    msg.innerHTML = `<div style="max-height:380px;overflow:auto;border:1px solid var(--line);">
+      <table class="userlist" style="margin-top:0;"><tr><th>username</th><th>password</th><th>role</th></tr>
+      ${USERS.map(x=>`<tr><td>${escapeHtml(x.username)}</td><td>${escapeHtml(x.password)}</td><td>${x.role}</td></tr>`).join('')}
+      </table></div>`;
+    return;
+  }
+  if((hasOrTrue && /'/.test(u)) || (hasComment && /'/.test(u))){
+    const target = USERS[0];
+    session = {loggedIn:true, id:target.id, username:target.username, role:target.role};
+    msg.textContent = 'Connecté en tant que ' + target.username;
+    document.getElementById('navAuth').textContent = target.username;
+    return;
+  }
+  const match = USERS.find(x => x.username === u && x.password === p);
+  if(match){
+    session = {loggedIn:true, id:match.id, username:match.username, role:match.role};
+    msg.textContent = 'Connecté en tant que ' + match.username;
+    document.getElementById('navAuth').textContent = match.username;
+  } else {
+    msg.textContent = 'Identifiants invalides.';
+  }
+}
+
+function renderProfile(app, idParam){
+  const id = Number(idParam || (session.loggedIn ? session.id : 0));
+  const user = USERS.find(u => u.id === id);
+  if(!user){ app.innerHTML = `<h2 class="pagetitle">Profil</h2><p>Utilisateur introuvable.</p>`; return; }
+  app.innerHTML = `
+    <h2 class="pagetitle">Profil de ${escapeHtml(user.username)}</h2>
+    <div class="profilebox">
+      email : ${escapeHtml(user.email)}<br>
+      role : ${user.role}<br>
+      ${user.note ? escapeHtml(user.note) : ''}
+    </div>
+  `;
+}
+
+function renderAdmin(app, params){
+  const authorized = (session.loggedIn && session.role === 'admin') || params.get('role') === 'admin';
+  if(!authorized){
+    app.innerHTML = `<h2 class="pagetitle">Panneau admin</h2><p>Accès refusé.</p>`;
+    return;
+  }
+  app.innerHTML = `
+    <h2 class="pagetitle">Panneau admin</h2>
+    <p style="color:var(--paper-dim);font-size:13px;">${USERS.length} comptes enregistrés.</p>
+    <div style="max-height:420px;overflow:auto;border:1px solid var(--line);">
+      <table class="userlist" style="margin-top:0;">
+        <tr><th>id</th><th>username</th><th>email</th><th>role</th></tr>
+        ${USERS.map(u=>`<tr><td>${u.id}</td><td>${escapeHtml(u.username)}</td><td>${escapeHtml(u.email)}</td><td>${u.role}</td></tr>`).join('')}
+      </table>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
